@@ -6,7 +6,7 @@ namespace AnimalShelterApi.DAL
 {
   public interface IAnimalRepository : IDisposable
   {
-    IEnumerable<Animal> GetAnimals();
+    IEnumerable<Animal> GetAnimals(AnimalParameters animalParameters);
     Animal GetAnimalByID(int animalId);
     void InsertAnimal(Animal animal);
     void DeleteAnimal(int animalId);

@@ -17,47 +17,45 @@ namespace AnimalShelterApi.Controllers
 
     // GET: api/Animals
 
-    [HttpGet]
-    public IActionResult GetAnimals([FromQuery] AnimalParameters animalParameters)
-    {
-      var animals = _db.Animals.GetAnimals(animalParameters);
-
-      _logger.LogInfo($"Returned {animals.Count()} animals from the database");
-
-      return Ok(animals);
-
-
-    }
-
-
-
     // [HttpGet]
-    // public async Task<ActionResult<IEnumerable<Animal>>> Get(string species, string name, string breed, int minimumAge)
+    // public IActionResult GetAnimals([FromQuery] AnimalParameters animalParameters)
     // {
-    //   IQueryable<Animal> query = _db.Animals.AsQueryable();
+    //   var animals = _db.Animals.GetAnimals(animalParameters);
 
-    //   if (species != null)
-    //   {
-    //     query = query.Where(entry => entry.Species == species);
-    //   }
+    //   _logger.LogInfo($"Returned {animals.Count()} animals from the database");
 
-    //   if (name != null)
-    //   {
-    //     query = query.Where(entry => entry.Name == name);
-    //   }
+    //   return Ok(animals);
 
-    //   if (breed != null)
-    //   {
-    //     query = query.Where(entry => entry.Breed == breed);
-    //   }
 
-    //   if (minimumAge > 0)
-    //   {
-    //     query = query.Where(entry => entry.Age >= minimumAge);
-    //   }
-
-    //   return await query.ToListAsync();
     // }
+
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<Animal>>> Get(string species, string name, string breed, int minimumAge)
+    {
+      IQueryable<Animal> query = _db.Animals.AsQueryable();
+
+      if (species != null)
+      {
+        query = query.Where(entry => entry.Species == species);
+      }
+
+      if (name != null)
+      {
+        query = query.Where(entry => entry.Name == name);
+      }
+
+      if (breed != null)
+      {
+        query = query.Where(entry => entry.Breed == breed);
+      }
+
+      if (minimumAge > 0)
+      {
+        query = query.Where(entry => entry.Age >= minimumAge);
+      }
+
+      return await query.ToListAsync();
+    }
 
     // GET: api/Animals/5
     [HttpGet("{id}")]
